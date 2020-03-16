@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
 
+const authRoutes = require('./routes/auth');
+
 require('dotenv').config();
 require('./config/passport/index');
 
@@ -31,6 +33,8 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(passport.initialize());
 server.use(cors());
+
+server.use('/auth', authRoutes);
 
 // Port
 const port = process.env.PORT;

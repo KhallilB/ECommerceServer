@@ -61,7 +61,7 @@ const logIn = async (req, res) => {
 };
 
 // Export Auth functions
-module.module.exports = {
+module.exports = {
   signUp,
   logIn
 };
