@@ -1,5 +1,6 @@
 // Dependencies
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
@@ -9,6 +10,21 @@ require('./config/passport/index');
 
 // Initalize
 const server = express();
+
+// Database Connection
+mongoose
+  .connect(process.env.DB, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log('Connected to database');
+  })
+  .catch(err => {
+    console.log(err);
+    return err;
+  });
 
 // Middleware
 server.use(bodyParser.json());
