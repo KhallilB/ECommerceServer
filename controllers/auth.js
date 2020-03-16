@@ -10,7 +10,8 @@ const signUp = async (req, res) => {
   // Create new user object
   const user = await new User();
 
-  user.fullName = req.body.fullName;
+  user.firstName = req.body.firstName;
+  user.lastName = req.body.lastName;
   user.email = req.body.email;
   user.password = req.body.password;
 
@@ -41,7 +42,7 @@ const logIn = async (req, res) => {
     (err, user, data) => {
       if (err) {
         console.log(err);
-        return res.json({ err }).status(500);
+        return res.json(err).status(500);
       }
 
       if (user) {
@@ -49,15 +50,12 @@ const logIn = async (req, res) => {
         const token = jwt.sign(
           payload,
           process.env.JWT_SECRET,
-          { expiresIn: JWT_EXP }
+          { expiresIn: process.env.JWT_EXP }
         );
         res.json({ token }).status(200);
-      } else {
-        return res.json({ data }).status(401);
-      }
+      } else return res.status(401).json(data);
     }
-  ),
-    (req, res);
+  )(req, res);
 };
 
 // Export Auth functions
