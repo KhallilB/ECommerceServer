@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const authRoutes = require('./routes/auth');
+const storeRoutes = require('./routes/store');
 
 require('dotenv').config();
 require('./config/passport/index');
@@ -29,12 +31,14 @@ mongoose
   });
 
 // Middleware
+server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(passport.initialize());
 server.use(cors());
 
 server.use('/auth', authRoutes);
+server.use('/store', authRoutes);
 
 // Port
 const port = process.env.PORT;

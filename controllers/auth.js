@@ -29,7 +29,15 @@ const signUp = async (req, res) => {
         { expiresIn: process.env.JWT_EXP }
       );
 
-      return res.json({ token }).status(200);
+      return res
+        .cookie('cellaCookie', token, {
+          maxAge: 99999,
+          httpOnly: true
+        })
+        .status(200)
+        .send({
+          message: 'Cookie has been sent to client '
+        });
     }
   });
 };
@@ -52,7 +60,16 @@ const logIn = async (req, res) => {
           process.env.JWT_SECRET,
           { expiresIn: process.env.JWT_EXP }
         );
-        res.json({ token }).status(200);
+
+        res
+          .cookie('cellaCookie', token, {
+            maxAge: 99999,
+            httpOnly: true
+          })
+          .status(200)
+          .send({
+            message: 'Cookie has been sent to client '
+          });
       } else return res.status(401).json(data);
     }
   )(req, res);
